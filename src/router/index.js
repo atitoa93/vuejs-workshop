@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import TodoPage from '../components/todo/TodoPage'
-import MoviePage from '../components/movies/MoviePage'
+import MoviesPage from '../components/movies/MoviesPage'
 
 Vue.use(VueRouter)
 
 const routes = [
   {path: '/', component: TodoPage},
-  {path: '/movies', component: MoviePage}
+  {path: '/movies', component: MoviesPage}
 ]
 
 export default new VueRouter({
