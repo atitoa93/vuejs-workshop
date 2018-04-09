@@ -1,38 +1,42 @@
 <template>
-  <div class="movie-card">
-    <img class="card-img-top"
-      @error="imageError = true"
-      :src="workingImage">
+<router-link :to="{ path: `movie/${id}` }">
+    <div class="movie-card">
+      <img class="card-img-top"
+        @error="imageError = true"
+        :src="workingImage">
 
-    <img v-if="saved"
-      class="movie-card-saved-icon" src="/static/star.png">
+      <img v-if="saved"
+        class="movie-card-saved-icon" src="/static/star.png">
 
-    <div class="movie-card-body">
-      <div class="text-container">
-        <h4 class="card-title">{{title}}</h4>
-        <p class="card-text">{{description}}</p>
+      <div class="movie-card-body">
+        <div class="text-container">
+          <h4 class="card-title">{{title}}</h4>
+          <p class="card-text">{{description}}</p>
+        </div>
+
+        <movie-card-vote-average :voteAverage="voteAverage"/>
+
+        <a v-if="!saved" href="#" @click.prevent="saveMovie(movieObject)"
+          class="btn btn-primary save-btn">
+          Add to backlog
+        </a>
+        <a v-else href="#" @click.prevent="removeSavedMovie(movieObject)"
+          class="btn btn-danger save-btn">
+          Remove
+        </a>
+
       </div>
-
-      <movie-card-vote-average :voteAverage="voteAverage"/>
-
-      <a v-if="!saved" href="#" @click.prevent="saveMovie(movieObject)"
-        class="btn btn-primary save-btn">
-        Add to backlog
-      </a>
-      <a v-else href="#" @click.prevent="removeSavedMovie(movieObject)"
-        class="btn btn-danger save-btn">
-        Remove
-      </a>
-
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
+import MoviePage from './MoviePage'
 import MovieCardVoteAverage from './MovieCardVoteAverage'
 
 export default {
   components: {
+    MoviePage,
     MovieCardVoteAverage
   },
 

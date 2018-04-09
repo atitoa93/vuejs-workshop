@@ -5,6 +5,13 @@ const url = process.env.MOVIES_URL
 const key = process.env.API_KEY
 
 export default {
+  getMovie(queryObj) {
+    const query = {
+      'api_key': key,
+    }
+
+    return axios.get(`${url}/movie/${queryObj.id}`, { params: query })
+  },
   getMovies (queryObj) {
     const twoMontsAgo = moment().subtract(2, 'month')
 

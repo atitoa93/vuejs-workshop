@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 const store = {
   state: {
+    movie: {},
     hello: 'world',
     movies: [],
     savedMovies: [],
@@ -18,6 +19,12 @@ const store = {
   },
 
   actions: {
+    async fetchMovie (context, id) {
+      context.commit('setLoading', true)
+      const response = await MovieService.getMovie({ id })
+      context.commit('setMovie', response.data)
+      context.commit('setLoading', false)
+    },
     async fetchMovies (context, page = 1) {
       context.commit('setLoading', true)
       const response = await MovieService.getMovies({
@@ -45,6 +52,9 @@ const store = {
   },
 
   mutations: {
+    setMovie(state, movieData) {
+      state.movie = movieData
+    },
     setMovies(state, moviesData) {
       state.movies = moviesData.results
       state.pages = moviesData.total_pages
@@ -81,6 +91,16 @@ const store = {
   },
 
   getters: {
+    movie (state) {
+      const imageBasePath = 'http://image.tmdb.org/t/p/w370_and_h556_bestv2'
+      return {
+        id: state.movie.id,
+        title: state.movie.title,
+        description: state.movie.description,
+        image: `${imageBasePath}${state.movie.poster_path}`,
+        voteAverage: state.movie.vote_average
+      }
+    },
     movieCards (state) {
       if(state.currentSection === 'backlog') {
         return state.savedMovies
